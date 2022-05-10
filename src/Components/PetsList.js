@@ -7,13 +7,18 @@ import { useState } from "react";
 function PetsList() {
   const [query, setQuery] = useState("");
   const [type, setType] = useState("");
-  const petList = pets
+  const [petsState, setPetsState] = useState(pets);
+  const handleAdopt = (id) => {
+    const notAdopted = petsState.filter((pet) => pet.id !== id);
+    setPetsState(notAdopted);
+  };
+  const petList = petsState
     .filter(
       (pet) =>
         pet.name.toLowerCase().includes(query.toLowerCase()) &&
         pet.type.includes(type)
     )
-    .map((pet) => <PetItem pet={pet} key={pet.id} />);
+    .map((pet) => <PetItem pet={pet} key={pet.id} handleAdopt={handleAdopt} />);
 
   return (
     <section id="doctors" className="doctor-section pt-140">
